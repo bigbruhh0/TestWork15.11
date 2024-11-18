@@ -31,15 +31,6 @@ $stmt->execute([
 
 $conflicts = $stmt->fetchColumn();
 
-if ($conflicts > 0) {
-    http_response_code(400);
-    echo json_encode([
-        'error' => 'Курьер не успеет вернуться с заказа.',
-        'conflictDate' => $conflicts
-    ]);
-    exit;
-}
-
 $sql = "SELECT MAX(arrival_date) FROM trips 
         WHERE courier_id = :courier_id 
         AND departure_date <= :departure_date 
@@ -49,14 +40,26 @@ $stmt->execute(['courier_id' => $courier_id, 'departure_date' => $departure_date
 
 $lastArrival = $stmt->fetchColumn();
 
+$message = "";
+
 if ($lastArrival) {
+    $message .= " Курьер освободится с " . date('Y-m-d', strtotime('+1 day', strtotime($lastArrival)));
+} else {
+    $message .= " Курьер свободен в это время ";
+}
+
+if ($conflicts) {
+    $message .= " У курьера запланирована поездка: " . $conflicts;
+}
+
+if ($lastArrival || $conflicts) {
     http_response_code(400);
     echo json_encode([
-        'error' => 'Курьер занят в указанное время.',
-        'available_from' => date('Y-m-d', strtotime('+1 day', strtotime($lastArrival)))
+        'error' => $message
     ]);
-    exit;
+    exit
 }
+
 
 
 

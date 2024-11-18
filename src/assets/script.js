@@ -67,12 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     addTripForm.reset();
                 } else {
                     responseDiv.textContent = "Ошибка: " + response.error;
-                    if (response.available_from) {
-                        responseDiv.textContent+= " Курьер доступен с "+response.available_from;
-                    }
-                    if (response.conflictDate) {
-                        responseDiv.textContent+= " У курьера запланирована поездка : "+response.conflictDate;
-                    }
                     responseDiv.style.color = "red";
                 }
             })
