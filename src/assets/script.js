@@ -60,19 +60,32 @@ document.addEventListener("DOMContentLoaded", () => {
         })
             .then((res) => res.json())
             .then((response) => {
+                console.log("Ответ от сервера:", response);
                 if (response.success) {
-                    responseDiv.textContent = "Поездка успешно добавлена!";
+                    responseDiv.textContent = "Поездка успешно добавлена! Дата прибытия: "+response.arrival_date;
                     responseDiv.style.color = "green";
+                    addTripForm.reset();
                 } else {
                     responseDiv.textContent = "Ошибка: " + response.error;
+                    if (response.available_from) {
+                        responseDiv.textContent+= " Курьер доступен с "+response.available_from;
+                    }
+                    if (response.conflictDate) {
+                        responseDiv.textContent+= " У курьера запланирована поездка : "+response.conflictDate;
+                    }
                     responseDiv.style.color = "red";
                 }
-                addTripForm.reset();
             })
             .catch((error) => {
-                console.error("Ошибка добавления поездки:", error);
-                responseDiv.textContent = "Произошла ошибка при добавлении поездки.";
+                console.error(error);
+                responseDiv.textContent = error;
                 responseDiv.style.color = "red";
+                if (response.available_from) {
+                        responseDiv.textContent+= " Курьер доступен с "+response.available_from;
+                    }
+                if (response.conflict_date) {
+                        responseDiv.textContent+= " Дата пересечения: "+response.conflict_date;
+                    }
             });
     }
 
@@ -131,6 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (regionSelect && courierSelect) {
         loadRegions();
         loadCouriers();
+        console.log('Перезагружены рег кур')
     }
     if (tripsTable) {
         loadTrips();

@@ -26,6 +26,8 @@ if (!empty($conditions)) {
     $query .= " WHERE " . implode(" AND ", $conditions);
 }
 
+$query .= " ORDER BY trips.departure_date";
+
 $stmt = $pdo->prepare($query);
 $stmt->execute($params);
 
