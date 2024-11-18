@@ -21,7 +21,7 @@ $sql = "SELECT MIN(departure_date)
         FROM trips 
         WHERE courier_id = :courier_id 
         AND departure_date < :arrival_date 
-        AND arrival_date > :departure_date";
+        AND departure_date > :departure_date";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([
     'courier_id' => $courier_id, 
