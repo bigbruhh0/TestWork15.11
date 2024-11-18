@@ -36,6 +36,8 @@
         <div id="response" class="mt-3"></div>
 
         <div class="mt-4">
+            
+            <a href="/templates/trips.php" class="btn btn-secondary">Посмотреть расписание</a>
             <a href="/index.php" class="btn btn-secondary">Главное меню</a>
         </div>
     </div>

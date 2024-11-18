@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (response.success) {
                     responseDiv.textContent = "Поездка успешно добавлена! Дата прибытия: "+response.arrival_date;
                     responseDiv.style.color = "green";
-                    addTripForm.reset();
+                    //addTripForm.reset();
                 } else {
                     responseDiv.textContent = "Ошибка: " + response.error;
                     responseDiv.style.color = "red";

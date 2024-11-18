@@ -45,6 +45,7 @@
             <div>
             <button id="filter-btn" class="btn btn-primary">Применить</button>
 
+            <a href="/templates/form.php" class="btn btn-secondary">Добавить поездку</a>
             <a href="/index.php" class="btn btn-secondary menu-button-container">Главное меню</a>
             </div>
         </div>

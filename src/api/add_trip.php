@@ -57,7 +57,7 @@ if ($lastArrival || $conflicts) {
     echo json_encode([
         'error' => $message
     ]);
-    exit
+    exit;
 }
 
 
@@ -73,7 +73,7 @@ $stmt->execute([
         'arrival_date' => $arrival_date
         ]);
 
-// Отправляем успешный ответ
+
 http_response_code(201);
 echo json_encode([
     'success' => true,
