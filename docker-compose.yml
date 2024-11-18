@@ -1,0 +1,45 @@
+services:
+  php:
+    build:
+      context: ./docker/php
+    container_name: php-container
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db
+
+  webserver:
+    build:
+      context: ./docker/webserver
+    container_name: webserver-container
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - php
+
+  db:
+    image: postgres:15
+    container_name: db-container
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: courier_schedule
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./docker/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin-container
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
+volumes:
+  db-data:
